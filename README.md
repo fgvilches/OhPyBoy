@@ -14,7 +14,7 @@ If this project has been useful to you, consider donating to me!
   <br>
 </div>
  
-<img alt="Static Badge" src="https://img.shields.io/badge/Discord&-youknowshift&labelColor=%233452eb">
+<img alt="Static Badge" src="https://img.shields.io/badge/Discor&labelColor=blue">
 
 <> <a href="https://fgvilches.ninja/"><img alt="Mi web!" src="https://img.shields.io/badge/-fgvilches.ninja-yellow"></a>
   
