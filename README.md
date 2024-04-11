@@ -14,8 +14,9 @@ If this project has been useful to you, consider donating to me!
   <br>
 </div>
  
- 
-<a href="https://fgvilches.ninja/"><img alt="Mi web!" src="https://img.shields.io/badge/-fgvilches.ninja-yellow"></a>
+ <img alt="Discord Account" src="https://img.shields.io/badge/%40youknowshift?label=Discord">
+
+<> <a href="https://fgvilches.ninja/"><img alt="Mi web!" src="https://img.shields.io/badge/-fgvilches.ninja-yellow"></a>
   
 <a href="https://bajamach.com/jA5a9ZyeEwb"><img alt="Si este proyecto te es util, considera donarme!" src="https://img.shields.io/badge/Donar-MACH-blueviolet"></a>
   
