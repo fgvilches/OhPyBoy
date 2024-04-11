@@ -14,7 +14,7 @@ If this project has been useful to you, consider donating to me!
   <br>
 </div>
  
- <img alt="Discord Account" src="https://img.shields.io/badge/%40youknowshift?label=Discord">
+ <img alt="Discord Account" src="https://img.shields.io/badge/youknowshift?label=Discord">
 
 <> <a href="https://fgvilches.ninja/"><img alt="Mi web!" src="https://img.shields.io/badge/-fgvilches.ninja-yellow"></a>
   
