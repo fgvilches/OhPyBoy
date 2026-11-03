@@ -2,7 +2,6 @@ use std::sync::Mutex;
 use tauri::Manager;
 use tauri::ipc::Response;
 
-mod core_bridge;
 
 // FrameInfo removed: run_frame returns raw binary Response directly.
 

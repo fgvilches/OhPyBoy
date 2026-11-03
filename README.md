@@ -1,24 +1,12 @@
-# OhPyBoy!
-A Python based gba emulator *Currently not working*
+# OhPyBoy
 
-Most of the code is based on gbajs2 and reinterpreted to use sdl2 (via pygame) and sounddevice (for sound). I am not an expert in emulation and I learned most of the concepts that I did not know with chat-gpt, so if you have a contribution, do not hesitate to write to me or generate a request.
+GBA emulator. Rust core + Tauri shell. Walking skeleton stage.
 
+The original Python implementation (never functional) lives under `legacy/`
+(tag `legacy-python`). The rebuild is in `crates/` and `apps/`. See
+`docs/PRODUCT_PLAN.md`, `docs/ARCHITECTURE.md`, `docs/REWRITE_AUDIT.md`.
 
----
+Status: Fase 1 (presentation path). Core is a test pattern generator, not an
+emulator. ARM/THUMB, PPU, APU come in Fase 2+.
 
-If this project has been useful to you, consider donating to me! 
-
-<div align="left">
-  <br>
-  <img src="https://github.com/fgvilches/Terrae-Reborn/blob/main/github-files/giphy.gif" alt="diagrama de arq" width="20%">
-  <br>
-</div>
- 
-<img src="https://img.shields.io/badge/Discord-7289DA?&logo=discord&logoColor=white"> @youknowshift
-
-  
-<a href="https://bajamach.com/jA5a9ZyeEwb"><img alt="Si este proyecto te es util, considera donarme!" src="https://img.shields.io/badge/Donar-MACH-blueviolet"></a>
-  
-<a href="https://www.paypal.me/fgvilches1"><img alt="Si este proyecto te es util, considera donarme!" src="https://img.shields.io/badge/Donar-Paypal-blue"></a>
-
-With love from 🇨🇱
+Build: `cargo build -p ohpyboy` then `tauri build --debug` from `apps/ohpyboy`.
