@@ -98,6 +98,25 @@ Ancho de banda: 240×160×4 = 153.6 KB por frame, 9.2 MB/s a 60 fps. No es el pr
 
 Criterio: 60 fps estables durante 10 minutos, latencia de presentación menor a un frame, CPU del WebView medida. Resultado y cifras se registran aquí al cerrar Fase 1.
 
+### Resultado de Fase 1 (2026-11-03): candidato A adoptado
+
+Medición con el patrón de prueba a 59.7275 Hz, ventana 960×640, Apple Silicon:
+
+| Variante | CPU del proceso | Notas |
+|---|---|---|
+| `Vec<u8>` crudo por `invoke` (serde_json) | **81.7 %** | 153.6 KB serializados a JSON por frame (~9 MB/s de texto) |
+| `ipc::Response` binario, 1 round-trip, `to_le_bytes`, pacing | **33.2 %** | misma imagen, sin JSON, loop con gate temporal |
+| Ventana oculta (`document.hidden`) | 0 % | trabajo detenido |
+
+**Decisión: candidato A con `tauri::ipc::Response`.** B y C no se implementan: A cumple el criterio con margen. El presupuesto de presentación queda en ~33 % de un core, y ~67 % libre para CPU/PPU/APU reales. Si el perfilado de Fase 3 muestra que el margen no alcanza, C sigue disponible y documentado.
+
+Reglas derivadas, ya aplicadas en el código:
+
+- Un solo IPC por frame: `run_frame` ejecuta y devuelve el framebuffer.
+- El framebuffer nunca viaja como JSON ni como array de números.
+- El pacing vive en el presentador (`16.741 ms`); el core no duerme.
+- Ventana oculta = emulación detenida.
+
 ## IPC
 
 Comandos pequeños y explícitos: `open_rom`, `open_bios`, `pause`, `resume`, `reset`, `save_state(slot)`, `load_state(slot)`, `set_keys(mask)`, `export_save`, `import_save`, `get_debug(view)`, `get_metrics`.
