@@ -1,0 +1,26 @@
+[package]
+name = "ohpyboy"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "OhPyBoy desktop shell"
+
+[lib]
+name = "ohpyboy_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7.4", features = [] }
+
+[dependencies]
+ohpyboy-core = { path = "../../../crates/core" }
+tauri = { version = "2.12.5", features = ["macos-private-api"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+window-vibrancy = "0.8"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OhPyBoy</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="aurora"></div>
+<div class="app">
+  <header class="topbar glass">
+    <div class="logo-badge"><img src="assets/logo.svg" alt="OhPyBoy"></div>
+    <div class="title-block">
+      <div class="app-title">Oh<span>PyBoy</span></div>
+      <div class="app-sub">GBA · core Rust</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="transport">
+      <button id="btn-run" class="btn btn-primary">Run frame</button>
+      <button id="btn-reset" class="btn">Reset</button>
+    </div>
+    <div class="status-chip glass" id="status">frame 0</div>
+  </header>
+  <main class="stage">
+    <canvas id="screen" width="240" height="160"></canvas>
+    <div class="hint">Walking skeleton · patrón de prueba · sin ROM todavía</div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
