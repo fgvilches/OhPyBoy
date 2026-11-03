@@ -34,5 +34,5 @@ html, body { height: 100%; font-family: var(--font-sans); color: var(--c-primary
 .btn-primary { background: rgba(0,229,255,.15); color: var(--c-tertiary); border-color: rgba(0,229,255,.35); }
 .status-chip { padding: 8px 12px; border-radius: var(--r-pill); font: 600 11px var(--font-mono); color: var(--c-secondary); }
 .stage { flex: 1; display: grid; place-items: center; gap: 12px; }
-#screen { width: 720px; height: 480px; image-rendering: pixelated; border-radius: var(--r-sm); box-shadow: 0 0 0 1px var(--c-glass-stroke); background: #000; }
+#screen { width: 720px; height: 480px; image-rendering: pixelated; image-rendering: crisp-edges; border-radius: var(--r-sm); box-shadow: 0 0 0 1px var(--c-glass-stroke); background: #000; }
 .hint { font-size: 11px; color: var(--c-secondary); }

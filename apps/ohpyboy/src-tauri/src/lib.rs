@@ -1,33 +1,28 @@
-use serde::Serialize;
 use std::sync::Mutex;
 use tauri::Manager;
+use tauri::ipc::Response;
 
 mod core_bridge;
 
-#[derive(Serialize)]
-struct FrameInfo { width: u32, height: u32, frame: u64 }
+// FrameInfo removed: run_frame returns raw binary Response directly.
 
-struct AppState { core: Mutex<ohpyboy_core::Gba> }
-
-#[tauri::command]
-fn run_frame(state: tauri::State<AppState>) -> FrameInfo {
-    let mut g = state.core.lock().unwrap();
-    g.run_frame();
-    FrameInfo { width: 240, height: 160, frame: g.frame_counter }
+struct AppState {
+    core: Mutex<ohpyboy_core::Gba>,
 }
 
+/// Single IPC per frame: runs one frame AND returns the framebuffer as raw
+/// binary (no JSON). This closes C1+C3 from the code review.
 #[tauri::command]
-fn framebuffer(state: tauri::State<AppState>) -> Vec<u8> {
-    let g = state.core.lock().unwrap();
+fn run_frame(state: tauri::State<AppState>) -> Response {
+    let mut g = state.core.lock().unwrap();
+    g.run_frame();
+    // Re-pack u32 RGBA -> bytes in one pass using to_le_bytes (C5).
     let fb = g.framebuffer();
     let mut out = Vec::with_capacity(fb.len() * 4);
     for &px in fb {
-        out.push((px >> 16) as u8);
-        out.push((px >> 8) as u8);
-        out.push(px as u8);
-        out.push((px >> 24) as u8);
+        out.extend_from_slice(&px.to_le_bytes());
     }
-    out
+    Response::new(out)
 }
 
 #[tauri::command]
@@ -40,21 +35,38 @@ fn set_keys(state: tauri::State<AppState>, keys: u16) {
     state.core.lock().unwrap().set_keys(keys);
 }
 
+#[tauri::command]
+fn frame_number(state: tauri::State<AppState>) -> u64 {
+    state.core.lock().unwrap().frame_counter
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            app.manage(AppState { core: Mutex::new(ohpyboy_core::Gba::new()) });
+            app.manage(AppState {
+                core: Mutex::new(ohpyboy_core::Gba::new()),
+            });
             if let Some(win) = app.get_webview_window("main") {
                 #[cfg(target_os = "macos")]
                 {
                     use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial, NSVisualEffectState};
-                    let _ = apply_vibrancy(&win, NSVisualEffectMaterial::UnderWindowBackground, Some(NSVisualEffectState::Active), Some(14.0));
+                    let _ = apply_vibrancy(
+                        &win,
+                        NSVisualEffectMaterial::UnderWindowBackground,
+                        Some(NSVisualEffectState::Active),
+                        Some(14.0),
+                    );
                 }
             }
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![run_frame, framebuffer, reset, set_keys])
+        .invoke_handler(tauri::generate_handler![
+            run_frame,
+            reset,
+            set_keys,
+            frame_number,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running OhPyBoy");
 }
